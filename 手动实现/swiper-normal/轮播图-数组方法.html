@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .wrapper {
+            /* overflow: hidden; */
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background-color: red;
+            outline: 1px solid green;
+            position: relative
+        }
+
+        .box {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        ul {
+            height: 20px;
+            margin: 0 auto;
+            list-style-type: none;
+            margin: 0 auto;
+            padding: 0;
+            text-align: center;
+        }
+
+        .spot .on {
+            background-color: #fff;
+        }
+
+        .item {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            border-radius: 50%;
+            background-color: #999;
+        }
+
+        .left-btn,
+        .right-btn {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            line-height: 15px;
+            background-color: #999;
+        }
+
+        .left-btn {
+            left: 0;
+            top: 80px;
+        }
+
+        .right-btn {
+            right: 0;
+            top: 80px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="box"></div>
+        <ul class="spot">
+            <li class="item on"></li>
+            <li class="item"></li>
+            <li class="item"></li>
+            <li class="item"></li>
+        </ul>
+        <div class="left-btn">
+            < </div>
+
+                <div class="right-btn">></div>
+        </div>
+    </div>
+
+
+    <script>
+        var wrapper = document.getElementsByClassName('wrapper')[0];
+        var box = document.getElementsByClassName('box')[0];
+        var spots = document.getElementsByClassName('item');
+        var left = document.getElementsByClassName('left-btn')[0];
+        var right = document.getElementsByClassName('right-btn')[0];
+
+        var arr = [1, 2, 3, 4];
+        var index = 0;
+
+        // 图片自动切换
+        var timer = setInterval(slide, 1000);
+
+        function slide() {
+
+            index++;
+            if (index == arr.length) {
+                index = 0;
+            }
+            box.innerHTML = arr[index];
+            //底部导航的切换
+            change();
+        }
+
+        //鼠标移入就停止轮播，移除就继续轮播
+        wrapper.onmouseover = function () {
+            clearInterval(timer);
+        }
+        wrapper.onmouseout = function () {
+            timer = setInterval(slide, 1000);
+        }
+
+        // 左右按钮的切换
+        left.onclick = function () {
+            index--;
+            if (index < 0) {
+                index = arr.length - 1;
+            }
+            box.innerHTML = arr[index];
+            change();
+        }
+        right.onclick = function () {
+            slide();
+        }
+
+        // 底部导航栏的切换
+        function change() {
+            for (let i = 0; i < spots.length; i++) {
+                spots[i].classList.remove('on');
+            }
+            spots[index].classList.add('on');
+        }
+
+        // 点击spot响应
+        for (let i = 0; i < spots.length; i++) {
+                spots[i].onclick = function () {
+                    index = i;
+                    box.innerHTML = arr[index];
+                    change();  
+                }
+            }
+
+
+
+
+    </script>
+</body>
+
+
+</html>
